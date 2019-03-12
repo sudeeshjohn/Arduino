@@ -40,8 +40,22 @@ void setup() {
     Serial.begin(9600);
     
 }
+void go_fwd()
+{
+  digitalWrite (motorA1,LOW);
+  delay(1);
+  digitalWrite(motorA2,HIGH);                       
+  delay(1);
+  
+  digitalWrite (motorB1,LOW);
+  delay(1);
+  digitalWrite(motorB2,HIGH);
 
-void go_rvrs()
+  analogWrite (motorAspeed, vSpeed);
+  analogWrite (motorBspeed, vSpeed);
+  }
+  
+void go_bkwd()
 {
   digitalWrite (motorA1,HIGH);
   delay(1);
@@ -56,7 +70,7 @@ void go_rvrs()
   analogWrite (motorBspeed, vSpeed);
     }
 
-void go_right()
+void go_fwd_right()
 {
   digitalWrite (motorA1,LOW);
   delay(1);
@@ -70,7 +84,86 @@ void go_right()
   analogWrite (motorAspeed, vSpeed);
   analogWrite (motorBspeed, 0);
     }
- 
+    
+ void go_fwd_left()
+ {
+  digitalWrite (motorA1,LOW);
+  delay(1);
+  digitalWrite(motorA2,HIGH);                       
+  delay(1);
+  
+  digitalWrite (motorB1,LOW);
+  delay(1);
+  digitalWrite(motorB2,HIGH);
+
+  analogWrite (motorAspeed, 0);
+  analogWrite (motorBspeed, vSpeed);
+    }
+
+void go_bkwd_left()
+{
+  digitalWrite (motorA1,HIGH);
+  delay(1);
+  digitalWrite(motorA2,LOW);                       
+  delay(1);
+  
+  digitalWrite (motorB1,HIGH);
+  delay(1);
+  digitalWrite(motorB2,LOW);
+
+  analogWrite (motorAspeed, 0);
+  analogWrite (motorBspeed, vSpeed);
+    }
+void go_bkwd_right()
+{
+  digitalWrite (motorA1,HIGH);
+  delay(1);
+  digitalWrite(motorA2,LOW);                       
+  delay(1);
+  
+  digitalWrite (motorB1,HIGH);
+  delay(1);
+  digitalWrite(motorB2,LOW);
+
+  analogWrite (motorAspeed, vSpeed);
+  analogWrite (motorBspeed, 0);
+    }
+void go_left()
+{
+  digitalWrite (motorA2,HIGH);
+  delay(1);
+  digitalWrite(motorA1,LOW);                       
+  delay(1);
+  
+  digitalWrite (motorB2,LOW);
+  delay(1);
+  digitalWrite(motorB1,HIGH);
+
+  analogWrite (motorAspeed, vSpeed);
+  analogWrite (motorBspeed, vSpeed);
+    }
+
+void go_right()
+{
+  digitalWrite (motorA2,LOW);
+  delay(1);
+  digitalWrite(motorA1,HIGH);                       
+  delay(1);
+  
+  digitalWrite (motorB2,HIGH);
+  delay(1);
+  digitalWrite(motorB1,LOW);
+
+  analogWrite (motorAspeed, vSpeed);
+  analogWrite (motorBspeed, vSpeed);    
+    }
+
+void car_stop()
+{
+        analogWrite(motorA1, 0);  analogWrite(motorA2, 0); 
+        analogWrite(motorB1, 0);  analogWrite(motorB2, 0);
+    }
+    
 void loop() {
   
     if(Serial.available() > 0){     
@@ -92,129 +185,61 @@ void loop() {
   /***********************Forward****************************/
   //If state is equal with letter 'F', car will go forward!
     if (state == 'F') {
-  digitalWrite (motorA1,LOW);
-  delay(1);
-  digitalWrite(motorA2,HIGH);                       
-  delay(1);
-  
-  digitalWrite (motorB1,LOW);
-  delay(1);
-  digitalWrite(motorB2,HIGH);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, vSpeed);
+     // if (distance > maximumRange || distance < minimumRange){
+      /* Send a positive number to computer and Turn MOTORS ON 
+       to indicate "out of range" */
+        //Serial.println("1");
+        
+        go_fwd();
+     /* }
+      else {
+        go_bkwd();
+        delay(50);
+        go_fwd_right();
+        delay(50); 
+           
+      }*/
   }
   /**********************Forward Left************************/
   //If state is equal with letter 'G', car will go forward left
     else if (state == 'I') {
-  digitalWrite (motorA1,LOW);
-  delay(1);
-  digitalWrite(motorA2,HIGH);                       
-  delay(1);
-  
-  digitalWrite (motorB1,LOW);
-  delay(1);
-  digitalWrite(motorB2,HIGH);
-
-  analogWrite (motorAspeed, 0);
-  analogWrite (motorBspeed, vSpeed);
+        go_fwd_left();
     }
   /**********************Forward Right************************/
   //If state is equal with letter 'I', car will go forward right
     else if (state == 'G') {
-  digitalWrite (motorA1,LOW);
-  delay(1);
-  digitalWrite(motorA2,HIGH);                       
-  delay(1);
-  
-  digitalWrite (motorB1,LOW);
-  delay(1);
-  digitalWrite(motorB2,HIGH);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, 0);
+        go_fwd_right();
     }
   /***********************Backward****************************/
   //If state is equal with letter 'B', car will go backward
     else if (state == 'B') {
-  digitalWrite (motorA1,HIGH);
-  delay(1);
-  digitalWrite(motorA2,LOW);                       
-  delay(1);
-  
-  digitalWrite (motorB1,HIGH);
-  delay(1);
-  digitalWrite(motorB2,LOW);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, vSpeed);
+  go_bkwd();
     }
   /**********************Backward Left************************/
   //If state is equal with letter 'J', car will go backward left
     else if (state == 'J') {
-  digitalWrite (motorA1,HIGH);
-  delay(1);
-  digitalWrite(motorA2,LOW);                       
-  delay(1);
-  
-  digitalWrite (motorB1,HIGH);
-  delay(1);
-  digitalWrite(motorB2,LOW);
-
-  analogWrite (motorAspeed, 0);
-  analogWrite (motorBspeed, vSpeed);
+ go_bkwd_left();
     }
   /**********************Backward Right************************/
   //If state is equal with letter 'H', car will go backward right
     else if (state == 'H') {
-  digitalWrite (motorA1,HIGH);
-  delay(1);
-  digitalWrite(motorA2,LOW);                       
-  delay(1);
-  
-  digitalWrite (motorB1,HIGH);
-  delay(1);
-  digitalWrite(motorB2,LOW);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, 0);
+ go_bkwd_right();
     }
   /***************************Left*****************************/
   //If state is equal with letter 'L', wheels will turn left
     else if (state == 'L') {
-  digitalWrite (motorA2,HIGH);
-  delay(1);
-  digitalWrite(motorA1,LOW);                       
-  delay(1);
-  
-  digitalWrite (motorB2,LOW);
-  delay(1);
-  digitalWrite(motorB1,HIGH);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, vSpeed);
+  go_left();
     }
   /***************************Right*****************************/
   //If state is equal with letter 'R', wheels will turn right
     else if (state == 'R') {
-  digitalWrite (motorA2,LOW);
-  delay(1);
-  digitalWrite(motorA1,HIGH);                       
-  delay(1);
-  
-  digitalWrite (motorB2,HIGH);
-  delay(1);
-  digitalWrite(motorB1,LOW);
-
-  analogWrite (motorAspeed, vSpeed);
-  analogWrite (motorBspeed, vSpeed);    
+  go_right();
     }
 
      /************************Stop*****************************/
   //If state is equal with letter 'S', stop the car
     else if (state == 'S'){
-        analogWrite(motorA1, 0);  analogWrite(motorA2, 0); 
-        analogWrite(motorB1, 0);  analogWrite(motorB2, 0);
+        car_stop();
     }
  /************************Lights*****************************/
  //If state is equal with letter 'W', turn leds on or of off
@@ -243,7 +268,7 @@ void loop() {
       state='n';  
     }
 
-    /* 
+/* 
 The following trigPin/echoPin cycle is used to determine the
  distance of the nearest object by bouncing soundwaves off of it. 
 */ 
@@ -261,15 +286,6 @@ The following trigPin/echoPin cycle is used to determine the
  
  
 
-if (distance < maximumRange ){
- /* Send a positive number to computer and Turn MOTORS ON 
- to indicate "out of range" */
- //Serial.println("1");
-  go_rvrs();
-  delay(50);
-  go_right();
- delay(50);
- 
- }
+
     
 }
